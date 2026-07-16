@@ -26,7 +26,7 @@ Let the intrinsic semiaxes be $(a,b,c)$, let $Q$ be the rotation from the
 principal-axis frame into world coordinates, and define
 
 $$
-A = Q\,\operatorname{diag}(a^{-2},b^{-2},c^{-2})\,Q^{\mathsf T}.
+A = Q\,\mathrm{diag}(a^{-2},b^{-2},c^{-2})\,Q^{\mathsf T}.
 $$
 
 The ellipsoidal radius of a point $\boldsymbol r$ relative to the center
@@ -139,15 +139,15 @@ $$
 and therefore has projected semiaxes
 
 $$
-a_{\rm proj}=\frac{\xi}{\sqrt{\lambda_1}},\qquad
-b_{\rm proj}=\frac{\xi}{\sqrt{\lambda_2}}.
+a_{\mathrm{proj}}=\frac{\xi}{\sqrt{\lambda_1}},\qquad
+b_{\mathrm{proj}}=\frac{\xi}{\sqrt{\lambda_2}}.
 $$
 
 Their ratio is
 
 $$
 \boxed{
-q_{\rm proj}=\frac{b_{\rm proj}}{a_{\rm proj}}
+q_{\mathrm{proj}}=\frac{b_{\mathrm{proj}}}{a_{\mathrm{proj}}}
 =\sqrt{\frac{\lambda_1}{\lambda_2}}
 },
 $$
@@ -155,7 +155,7 @@ $$
 which is independent of $\xi$ and of $\rho(m)$. Thus one projection has one
 center, position angle, and axis ratio at every surface-density level. The
 axis ratio itself generally changes when the viewing direction changes. This
-package reports ellipticity using $\epsilon=1-q_{\rm proj}$.
+package reports ellipticity using $\epsilon=1-q_{\mathrm{proj}}$.
 
 For a monotonic profile, each value of $\Sigma$ corresponds to a single
 ellipse. A non-monotonic profile can produce several nested ellipses at the
@@ -187,12 +187,12 @@ the result is
 $$
 \boxed{
 \Sigma(\xi)=\frac{\rho_0M}{\sqrt{\alpha}}
-\operatorname{B}\!\left(\frac12,p+1\right)
+\mathrm{B}\!\left(\frac12,p+1\right)
 \left(1-\frac{\xi^2}{M^2}\right)^{p+1/2}
 },
 $$
 
-where $\operatorname{B}$ denotes the Euler beta function rather than the
+where $\mathrm{B}$ denotes the Euler beta function rather than the
 projected matrix $B$.
 
 For the truncated cored profile with outer slope two,
