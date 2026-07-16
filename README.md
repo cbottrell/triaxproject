@@ -5,12 +5,14 @@ ellipsoid along an arbitrary line of sight. It covers:
 
 1. a uniform-density ellipsoid; and
 2. any density stratified on similar ellipsoids, $\rho=\rho(m)$, within a
-   finite outer shell $m_{\max}$, where
+   finite outer shell $m_{\max}$.
 
-   $$
-   m^2=(\boldsymbol{x}-\boldsymbol{x}_0)^{\mathsf T}
-       A(\boldsymbol{x}-\boldsymbol{x}_0).
-   $$
+The ellipsoidal radius is defined by
+
+$$
+m^2=(\boldsymbol{x}-\boldsymbol{x}_0)^{\mathsf T}
+    A(\boldsymbol{x}-\boldsymbol{x}_0).
+$$
 
 It creates raw line-of-sight surface-density maps, evaluates analytic and Abel
 references, extracts contours from raster maps, and fits their centers, axis
