@@ -1,0 +1,26 @@
+TRIAXIAL PROJECTION WORKED EXAMPLES
+
+Intrinsic semiaxes (m=1): (1.8, 1.1, 0.55)
+Normalized LOS: [0.43056009 0.58075547 0.69089875]
+Predicted projected b/a: 0.541139431881
+Predicted ellipticity 1-b/a: 0.458860568119
+Predicted position angle: 174.362885075 deg
+
+case                       xi      fitted b/a       delta(b/a)       center offset     PA error (deg)
+Uniform density             0.25     0.5411397300      +2.981e-07       3.930e-09      +9.448e-05
+Uniform density             0.40     0.5411394847      +5.281e-08       9.554e-09      +7.535e-06
+Uniform density             0.55     0.5411394700      +3.816e-08       2.643e-09      +1.087e-05
+Uniform density             0.70     0.5411394426      +1.074e-08       4.351e-10      +3.391e-06
+Uniform density             0.82     0.5411393669      -6.496e-08       3.267e-09      -2.383e-05
+Uniform density             0.90     0.5411393314      -1.005e-07       4.410e-09      -3.631e-05
+  Uniform density b/a range: 3.986e-07
+  Uniform density max |raw LOS map - analytic map| / Sigma0: 4.352e-14
+
+Cored radial density        0.25     0.5411398320      +4.001e-07       1.851e-08      +1.689e-04
+Cored radial density        0.40     0.5411396730      +2.411e-07       4.792e-09      +8.728e-05
+Cored radial density        0.55     0.5411395374      +1.055e-07       6.576e-09      +4.118e-05
+Cored radial density        0.70     0.5411395034      +7.155e-08       5.525e-09      +2.771e-05
+Cored radial density        0.82     0.5411394585      +2.658e-08       1.684e-09      +9.936e-06
+Cored radial density        0.90     0.5411394087      -2.313e-08       1.561e-10      -7.945e-06
+  Cored radial density b/a range: 4.233e-07
+  Cored radial density max |raw LOS map - analytic map| / Sigma0: 8.897e-11
