@@ -4,12 +4,13 @@
 ellipsoid along an arbitrary line of sight. It covers:
 
 1. a uniform-density ellipsoid; and
-2. any density stratified on similar ellipsoids, `rho = rho(m)`, within a
-   finite outer shell `m_max`, where
+2. any density stratified on similar ellipsoids, $\rho=\rho(m)$, within a
+   finite outer shell $m_{\max}$, where
 
-   ```text
-   m^2 = (x - x0)^T A (x - x0).
-   ```
+   $$
+   m^2=(\boldsymbol{x}-\boldsymbol{x}_0)^{\mathsf T}
+       A(\boldsymbol{x}-\boldsymbol{x}_0).
+   $$
 
 It creates raw line-of-sight surface-density maps, evaluates analytic and Abel
 references, extracts contours from raster maps, and fits their centers, axis
@@ -21,7 +22,7 @@ ratios, ellipticities, and position angles.
 
 ### Ellipsoidal geometry and an arbitrary line of sight
 
-Let the intrinsic semiaxes be `(a,b,c)`, let `Q` be the rotation from the
+Let the intrinsic semiaxes be $(a,b,c)$, let $Q$ be the rotation from the
 principal-axis frame into world coordinates, and define
 
 $$
@@ -36,8 +37,8 @@ m^2=(\boldsymbol r-\boldsymbol r_0)^{\mathsf T}
     A(\boldsymbol r-\boldsymbol r_0).
 $$
 
-The shell $m=1$ therefore has semiaxes `(a,b,c)`, while an outer truncation
-$m=M$ has semiaxes `(Ma,Mb,Mc)`. The density models considered here have
+The shell $m=1$ therefore has semiaxes $(a,b,c)$, while an outer truncation
+$m=M$ has semiaxes $(Ma,Mb,Mc)$. The density models considered here have
 $\rho=\rho(m)$, so all intrinsic isodensity shells are concentric, coaxial,
 and similar.
 
@@ -289,8 +290,8 @@ conflicting explicit value. Profiles without an intrinsic cutoff default to
 python examples/worked_examples.py
 ```
 
-The script uses semiaxes `(1.8, 1.1, 0.55)` and the oblique line of sight
-proportional to `(0.43, 0.58, 0.69)`. It produces:
+The script uses semiaxes $(1.8,1.1,0.55)$ and the oblique line of sight
+proportional to $(0.43,0.58,0.69)$. It produces:
 
 - `example_outputs/constant_ellipticity.png`: maps, numerical contours,
   geometric ellipse overlays, and contour-fit residuals;
@@ -298,12 +299,13 @@ proportional to `(0.43, 0.58, 0.69)`. It produces:
 - `example_outputs/example_summary.txt`: a compact human-readable report.
 
 The second example uses the non-polynomial cored profile
-`rho(m) = rho0 / (1 + (m/0.25)^2)`, truncated at `m=1`. For the included
-501-by-501 calculation, the predicted axis ratio is `0.541139431881`. The
-fitted `b/a` range across six contours is about `4.0e-7` for uniform density
-and `4.2e-7` for the cored radial profile. The uniform raw map agrees with its
-closed form to about `5e-14` of the central surface density; the non-polynomial
-cored map agrees with its independent closed form to about `9e-11`.
+$\rho(m)=\rho_0/[1+(m/0.25)^2]$, truncated at $m=1$. For the included
+$501\times501$ calculation, the predicted axis ratio is $0.541139431881$. The
+fitted $b/a$ range across six contours is about $4.0\times10^{-7}$ for uniform
+density and $4.2\times10^{-7}$ for the cored radial profile. The uniform raw
+map agrees with its closed form to about $5\times10^{-14}$ of the central
+surface density; the non-polynomial cored map agrees with its independent
+closed form to about $9\times10^{-11}$.
 
 You can trade resolution for speed:
 
@@ -322,15 +324,15 @@ python -m unittest discover -s tests -v
 
 The tests cover principal and oblique projections, rotated ellipsoids, the
 spherical limit, raw LOS quadrature against three closed forms, arbitrary
-`rho(m)` against the Abel reduction, constancy around predicted ellipses, and
+$\rho(m)$ against the Abel reduction, constancy around predicted ellipses, and
 axis-ratio recovery from raster contours.
 
 ## API overview
 
 - `TriaxialEllipsoid`: intrinsic axes, orientation, center, and ellipsoidal
   radius.
-- `ProjectionGeometry`: sky basis, projected matrix `B`, chord intersections,
-  projected semiaxes, `b/a`, `1-b/a`, and position angle.
+- `ProjectionGeometry`: sky basis, projected matrix $B$, chord intersections,
+  projected semiaxes, $b/a$, $1-b/a$, and position angle.
 - `UniformDensity`, `PolynomialDensity`, `CoredPowerLawDensity`: ready-to-use
   profiles.
 - `surface_density_los`: direct finite-chord Gauss-Legendre projection.
@@ -345,13 +347,13 @@ axis-ratio recovery from raster contours.
 
 ## Scope and caveats
 
-The fixed-ellipticity result assumes parallel projection and one fixed `A`:
+The fixed-ellipticity result assumes parallel projection and one fixed $A$:
 all intrinsic isodensity shells must be concentric, coaxial, and similar. It is
 not generally true when axis ratios or orientation vary with radius, when
 density is a function of spherical rather than ellipsoidal radius inside an
 ellipsoidal boundary, or when substructure is added.
 
-For a non-monotonic `rho(m)`, one surface-density value can correspond to
+For a non-monotonic $\rho(m)$, one surface-density value can correspond to
 multiple nested loops. Each loop is still a similar ellipse, but a level set
 need not be a single contour. Position angle is numerically undefined for an
 exactly circular projection.
