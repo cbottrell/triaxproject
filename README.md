@@ -17,40 +17,217 @@ ratios, ellipticities, and position angles.
 
 ![Worked projections and contour-fit residuals](example_outputs/constant_ellipticity.png)
 
-## Main result demonstrated numerically
+## Analytic derivation
 
-For a fixed ellipsoidal quadratic form `A`, a unit line-of-sight vector `n`,
-and an orthonormal sky basis `P`, define
+### Ellipsoidal geometry and an arbitrary line of sight
 
-```text
-alpha = n^T A n
-d     = P^T A n
-C     = P^T A P
-B     = C - d d^T / alpha.
-```
+Let the intrinsic semiaxes be `(a,b,c)`, let `Q` be the rotation from the
+principal-axis frame into world coordinates, and define
 
-At sky position `R = (x,y)`, completing the square gives
+$$
+A = Q\,\operatorname{diag}(a^{-2},b^{-2},c^{-2})\,Q^{\mathsf T}.
+$$
 
-```text
-m^2 = alpha (s - s_center)^2 + xi^2,
-xi^2 = R^T B R.
-```
+The ellipsoidal radius of a point $\boldsymbol r$ relative to the center
+$\boldsymbol r_0$ is
 
-Thus every projected surface density for `rho = rho(m)` is a function only of
-`xi`. If the eigenvalues of `B` are `lambda_1 <= lambda_2`, every contour has
+$$
+m^2=(\boldsymbol r-\boldsymbol r_0)^{\mathsf T}
+    A(\boldsymbol r-\boldsymbol r_0).
+$$
 
-```text
-a_proj = xi / sqrt(lambda_1)
-b_proj = xi / sqrt(lambda_2)
-b/a    = sqrt(lambda_1 / lambda_2),
-```
+The shell $m=1$ therefore has semiaxes `(a,b,c)`, while an outer truncation
+$m=M$ has semiaxes `(Ma,Mb,Mc)`. The density models considered here have
+$\rho=\rho(m)$, so all intrinsic isodensity shells are concentric, coaxial,
+and similar.
 
-independent of contour level and of the radial profile. The package uses the
-ellipticity convention `epsilon = 1 - b/a`.
+Choose a unit line-of-sight vector $\boldsymbol n$ and a $3\times2$ matrix
+$P=(\boldsymbol e_x,\boldsymbol e_y)$ whose columns form an orthonormal sky
+basis. Thus $P^{\mathsf T}P=I$ and $P^{\mathsf T}\boldsymbol n=0$. A point on
+the ray through sky coordinate $\boldsymbol R=(x,y)^{\mathsf T}$ is
+
+$$
+\boldsymbol r-\boldsymbol r_0=P\boldsymbol R+\boldsymbol n s,
+$$
+
+where $s$ is physical distance along the line of sight. Define
+
+$$
+\alpha=\boldsymbol n^{\mathsf T}A\boldsymbol n,\qquad
+\boldsymbol d=P^{\mathsf T}A\boldsymbol n,\qquad
+C=P^{\mathsf T}AP.
+$$
+
+Substitution gives the quadratic along the ray,
+
+$$
+m^2=\alpha s^2+2s\,\boldsymbol d^{\mathsf T}\boldsymbol R
+    +\boldsymbol R^{\mathsf T}C\boldsymbol R.
+$$
+
+Completing the square yields
+
+$$
+m^2=\alpha(s-s_c)^2+\xi^2,
+\qquad
+s_c=-\frac{\boldsymbol d^{\mathsf T}\boldsymbol R}{\alpha},
+$$
+
+with projected elliptical radius
+
+$$
+\xi^2=\boldsymbol R^{\mathsf T}B\boldsymbol R,
+\qquad
+B=C-\frac{\boldsymbol d\boldsymbol d^{\mathsf T}}{\alpha}.
+$$
+
+The projected boundary of the shell $m=M$ is consequently the ellipse
+$\boldsymbol R^{\mathsf T}B\boldsymbol R=M^2$. For numerical stability the
+code evaluates the algebraically equivalent form
+
+$$
+B=\left(P^{\mathsf T}A^{-1}P\right)^{-1},
+$$
+
+which avoids subtracting nearly equal matrices for very elongated ellipsoids.
+
+### Projection of a general radial profile
+
+The surface density is the line-of-sight integral
+
+$$
+\Sigma(\boldsymbol R)=\int \rho(m)\,ds.
+$$
+
+Inside a finite outer shell $m\le M$, set
+$t=\sqrt{\alpha}(s-s_c)$. Since $m^2=\xi^2+t^2$, the two sides of the chord
+give
+
+$$
+\boxed{
+\Sigma(\xi)=\frac{2}{\sqrt{\alpha}}
+\int_0^{\sqrt{M^2-\xi^2}}
+\rho\!\left(\sqrt{\xi^2+t^2}\right)dt
+}
+\qquad (0\le\xi\le M).
+$$
+
+Changing the integration variable from $t$ to $m$ gives the equivalent Abel
+form
+
+$$
+\boxed{
+\Sigma(\xi)=\frac{2}{\sqrt{\alpha}}
+\int_{\xi}^{M}\frac{\rho(m)m}{\sqrt{m^2-\xi^2}}\,dm
+}.
+$$
+
+This proves that the projected density depends on sky position only through
+$\xi$, regardless of the particular function $\rho(m)$.
+
+### Why every contour has the same ellipticity
+
+Let the eigenvalues of the positive-definite matrix $B$ be
+$0<\lambda_1\le\lambda_2$, and rotate the sky coordinates into its
+eigenvectors, $(u,v)$. A contour of constant $\xi$ obeys
+
+$$
+\lambda_1u^2+\lambda_2v^2=\xi^2
+$$
+
+and therefore has projected semiaxes
+
+$$
+a_{\rm proj}=\frac{\xi}{\sqrt{\lambda_1}},\qquad
+b_{\rm proj}=\frac{\xi}{\sqrt{\lambda_2}}.
+$$
+
+Their ratio is
+
+$$
+\boxed{
+q_{\rm proj}=\frac{b_{\rm proj}}{a_{\rm proj}}
+=\sqrt{\frac{\lambda_1}{\lambda_2}}
+},
+$$
+
+which is independent of $\xi$ and of $\rho(m)$. Thus one projection has one
+center, position angle, and axis ratio at every surface-density level. The
+axis ratio itself generally changes when the viewing direction changes. This
+package reports ellipticity using $\epsilon=1-q_{\rm proj}$.
+
+For a monotonic profile, each value of $\Sigma$ corresponds to a single
+ellipse. A non-monotonic profile can produce several nested ellipses at the
+same $\Sigma$, but all of them still have the same axis ratio and orientation.
+
+### Closed-form benchmark profiles
+
+The analytic functions shipped with the package implement the following
+finite-support results.
+
+For uniform density, $\rho(m)=\rho_0$,
+
+$$
+\boxed{
+\Sigma(\xi)=\frac{2\rho_0}{\sqrt{\alpha}}
+\sqrt{M^2-\xi^2}
+}.
+$$
+
+For the polynomial family
+
+$$
+\rho(m)=\rho_0\left[1-\left(\frac{m}{M}\right)^2\right]^p,
+\qquad 0\le m\le M,
+$$
+
+the result is
+
+$$
+\boxed{
+\Sigma(\xi)=\frac{\rho_0M}{\sqrt{\alpha}}
+\operatorname{B}\!\left(\frac12,p+1\right)
+\left(1-\frac{\xi^2}{M^2}\right)^{p+1/2}
+},
+$$
+
+where $\operatorname{B}$ denotes the Euler beta function rather than the
+projected matrix $B$.
+
+For the truncated cored profile with outer slope two,
+
+$$
+\rho(m)=\frac{\rho_0}{1+(m/r_c)^2},\qquad 0\le m\le M,
+$$
+
+the projection is
+
+$$
+\boxed{
+\Sigma(\xi)=
+\frac{2\rho_0r_c^2}{\sqrt{\alpha}\sqrt{r_c^2+\xi^2}}
+\tan^{-1}\!\left(
+\frac{\sqrt{M^2-\xi^2}}{\sqrt{r_c^2+\xi^2}}
+\right)
+}.
+$$
+
+As a simple principal-axis check, viewing
+$x^2/a^2+y^2/b^2+z^2/c^2\le1$ along $z$ gives
+
+$$
+\Sigma(x,y)=2\rho_0c
+\sqrt{1-\frac{x^2}{a^2}-\frac{y^2}{b^2}},
+$$
+
+so every contour is immediately seen to be a scaled copy of the boundary
+ellipse with axis ratio $b/a$.
+
+### Numerical verification
 
 The worked examples evaluate the full three-dimensional ellipsoidal radius at
 every line-of-sight quadrature node. They do not construct the map from a
-precomputed `Sigma(xi)`. The ellipses are then recovered from interpolated
+precomputed $\Sigma(\xi)$. The ellipses are then recovered from interpolated
 raster contours rather than simply plotting the analytic contour equations.
 
 ## Install
