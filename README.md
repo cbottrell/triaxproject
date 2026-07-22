@@ -128,8 +128,7 @@ $$
 The terms that contain $s$ satisfy
 
 $$
-\alpha s^2+2s\boldsymbol d^{\mathsf T}\boldsymbol R
-=
+\alpha s^2+2s\boldsymbol d^{\mathsf T}\boldsymbol R=
 \alpha\left(s+\frac{\boldsymbol d^{\mathsf T}\boldsymbol R}{\alpha}\right)^2
 -\frac{(\boldsymbol d^{\mathsf T}\boldsymbol R)^2}{\alpha}.
 $$
