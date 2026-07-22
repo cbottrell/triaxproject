@@ -44,6 +44,18 @@ class ReadmeMathTests(unittest.TestCase):
             with self.subTest(macro=macro):
                 self.assertNotIn(macro, source)
 
+    def test_inline_math_delimiters_do_not_touch_prose_hyphens(self):
+        source = README.read_text(encoding="utf-8")
+
+        self.assertIsNone(
+            re.search(r"[A-Za-z]-\$(?:\\[A-Za-z]|[A-Za-z])", source),
+            "An inline-math opening delimiter touches a preceding prose hyphen",
+        )
+        self.assertIsNone(
+            re.search(r"\$-[A-Za-z]", source),
+            "An inline-math closing delimiter touches a following prose hyphen",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

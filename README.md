@@ -404,7 +404,7 @@ $$
 \xi^2=M^2-\frac{\alpha\Sigma_0^2}{4\rho_0^2}.
 $$
 
-Thus each uniform-density contour is explicitly a constant-$\xi$ ellipse.
+Thus each uniform-density contour is explicitly an ellipse of constant $\xi$.
 
 #### 6.2 Polynomial density
 
